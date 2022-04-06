@@ -1,6 +1,8 @@
 import os
 import json
 from github import Github, GithubIntegration
+import matplotlib
+from matplotlib.figure import Figure
 
 app_id = '187180'
 
@@ -40,6 +42,37 @@ def analysis():
                     num_fixes_by_file[f.filename] = 1
     #print(json.dumps(num_fixes_by_file, indent=4, sort_keys=True))
     return num_fixes_by_file
+
+def create_chart():
+    data = analysis()
+
+    files = []
+    fixes = []
+
+    for k, v in data.items():
+        files.append(k.split('/')[-1])
+        fixes.append(v)
+    fig1 = Figure()
+    ax1 = fig1.subplots()
+    if len(files) > 10:
+        fontsize = 10
+    else:
+        fontsize = 15
+    
+    ax1.pie(fixes, labels=files, autopct='%1.1f%%', shadow=True, radius=1.5, textprops={'fontsize': fontsize}, labeldistance=1.06, pctdistance=0.80)
+    wedges = [patch for patch in ax1.patches if isinstance(patch, matplotlib.patches.Wedge)]
+    for w in wedges:
+        w.set_linewidth = 2
+        w.set_edgecolor("black")
+
+    ax1.axis('equal')
+    
+    dpi = 200
+    width = 1920
+    height = 1080
+    fig1.set_size_inches(width / dpi, height / dpi)
+
+    return fig1
 
 def is_keyword(msg):
     keywords = ['fix', 'bug', 'issue']
