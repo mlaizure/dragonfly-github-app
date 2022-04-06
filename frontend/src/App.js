@@ -17,8 +17,8 @@ function App() {
   }, [])
 
   return (
+    
     <div>
-     
       {(typeof data.testing === 'undefined') ? (
         <p>Loading...</p>
       ) : (
@@ -26,7 +26,6 @@ function App() {
           <p key={i}>{test}</p>
         ))
       )}
-
     </div>
   )
 }
