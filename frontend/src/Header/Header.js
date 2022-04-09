@@ -1,10 +1,21 @@
 import './Header.css';
+import React from 'react';
+import logo from '../assets/logo.png';
 
 function Header() {
   return (
-    <div className="Header">
-      <h1><a href="#" onclick="window.open('https://github.com/mlaizure/dragonfly'); window.open('https://pypi.org/project/git-dragonfly/');">Dragonfly Local Tool</a></h1>
-      <h1><a href="#">Download Analytics</a></h1>
-    </div>
+    <React.Fragment>
+      <div className="Header">
+        <div className="logo">
+          <img src={logo} alt="Dragonfly Logo" width="60px" height="60px"></img>
+        </div>
+        <div className="links">
+          <h1><a href="https://github.com/mlaizure/dragonfly" target="_blank" rel="noopener noreferrer">Dragonfly Local Tool</a></h1>
+          <h1><a href="#">Download Analytics</a></h1>
+        </div>
+      </div>
+    </React.Fragment>
   )
 }
+
+export default Header;

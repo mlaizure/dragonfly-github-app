@@ -1,0 +1,12 @@
+.Footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #3381b5;
+  border-top: 2px solid #000000;
+  text-align: center;
+}
+
+.footerContent h1 {
+  font-size: 15px;
+}
