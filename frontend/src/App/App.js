@@ -3,20 +3,33 @@ import './App.css';
 import Header from '../Header/Header.js';
 import Footer from '../Footer/Footer.js';
 
+
 function App() {
+  
+  const [imageData, setImageData] = useState('');
+  useEffect(() =>{
+    fetch('/chart')
+      .then(response => response.blob())
+      .then(image => {
+        // Create a local URL of that image
+        const localUrl = URL.createObjectURL(image);
+        setImageData(localUrl);
+      });
+  }, []);
 
   const [data, setData] = useState([{}])
 
   useEffect(() => {
-    fetch("/testing").then(
+    fetch("/dashboard").then(
       res => res.json()
     ).then(
       data => {
         setData(data)
-        console.log(data)
       }
     )
   }, [])
+
+  console.log(JSON.stringify(imageData))
 
   return (
     <React.Fragment>
@@ -25,15 +38,22 @@ function App() {
       </div>
     
       <div>
-        {(typeof data.testing === 'undefined') ? (
+        {(imageData === '') ? (
           <p>Loading...</p>
         ) : (
-          data.testing.map((test, i) => (
-            <p key={i}>{test}</p>
-          ))
+          <img src={imageData} alt="chart" />
         )}
       </div>
+
       <div>
+        {(JSON.stringify(data) === '[{}]') ? (
+          <p>Loading...</p>
+        ) : (
+          <p>{JSON.stringify(data)}</p>
+        )}
+      </div>
+     
+     <div>
         <Footer />
       </div>
     </React.Fragment>
