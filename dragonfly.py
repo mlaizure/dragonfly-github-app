@@ -6,9 +6,9 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 app = Flask(__name__,
-            template_folder="frontend/build",
+            template_folder="build",
             static_url_path="",
-            static_folder="frontend/build")
+            static_folder="build")
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 @app.route("/testing")
@@ -23,10 +23,6 @@ def testing():
 @app.route("/")
 def index():
     return render_template("index.html")
-
-#@app.route("/static/js/<path:path>")
-#def build(path):
-#    return send_from_directory("./frontend/build/static/js", path)
 
 @app.route("/dashboard")
 def dashboard():
