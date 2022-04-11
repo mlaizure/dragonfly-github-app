@@ -11,3 +11,4 @@ Werkzeug
 zipp
 PyGithub
 matplotlib
+cryptography
