@@ -41,7 +41,7 @@ function App() {
         {(imageData === '') ? (
           <p>Loading...</p>
         ) : (
-          <img src={imageData} alt="chart" />
+          <img src="/chart" alt="chart" />
         )}
       </div>
 
