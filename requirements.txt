@@ -9,3 +9,5 @@ MarkupSafe
 typing-extensions
 Werkzeug
 zipp
+PyGithub
+matplotlib
