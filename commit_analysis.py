@@ -6,11 +6,15 @@ from matplotlib.figure import Figure
 
 app_id = '187180'
 
-with open(
-        os.path.normpath(os.path.expanduser('./dragonfly-analytics.2022-04-05.private-key.pem')),
-        'r'
-) as cert_file:
-    app_key = cert_file.read()
+if os.getenv("PRIVATE_KEY"):
+    app_key = os.getenv("PRIVATE_KEY")
+
+else:
+    with open(
+            os.path.normpath(os.path.expanduser('./dragonfly-analytics.2022-04-05.private-key.pem')),
+            'r'
+    ) as cert_file:
+        app_key = cert_file.read()
 
 
 git_integration = GithubIntegration(
