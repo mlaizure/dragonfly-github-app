@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from '../Header/Header.js';
 import Footer from '../Footer/Footer.js';
+import { makeTable } from '../Table/makeTable.js';
 
 
 function App() {
@@ -29,15 +30,13 @@ function App() {
     )
   }, [])
 
-  console.log(data)
-
   return (
     <React.Fragment>
       <div>
         <Header />
       </div>
     
-      <div className='chart'>
+      <div>
         {(imageData === '') ? (
           <p>Loading...</p>
         ) : (
@@ -45,15 +44,23 @@ function App() {
         )}
       </div>
 
-      <div className='jsonData'>
+      <div>
         {(JSON.stringify(data) === '[{}]') ? (
           <p>Loading...</p>
         ) : (
-          <p>{JSON.stringify(data)}</p>
+          <div>{makeTable(data)}</div>
+          //<p>{JSON.stringify(data)}</p>
         )}
       </div>
+      
+      <div>
+        <table>
+          <tbody id="myTable">
+          </tbody>
+        </table>
+      </div>
      
-      <div className='footer'>
+     <div>
         <Footer />
       </div>
     </React.Fragment>
