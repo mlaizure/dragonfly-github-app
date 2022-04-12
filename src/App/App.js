@@ -29,7 +29,7 @@ function App() {
     )
   }, [])
 
-  console.log(JSON.parse(data))
+  console.log(data)
 
   return (
     <React.Fragment>
