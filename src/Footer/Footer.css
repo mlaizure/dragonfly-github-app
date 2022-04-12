@@ -1,10 +1,11 @@
 .Footer {
-  position: absolute;
+  /*position: absolute;*/
   bottom: 0;
   width: 100%;
   background: #3381b5;
   border-top: 2px solid #000000;
   text-align: center;
+  display: inline-block;
 }
 
 .footerContent h1 {
