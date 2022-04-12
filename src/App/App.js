@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from '../Header/Header.js';
 import Footer from '../Footer/Footer.js';
+import { makeTable } from '../Table/makeTable.js';
 
 
 function App() {
@@ -29,8 +30,6 @@ function App() {
     )
   }, [])
 
-  console.log(JSON.stringify(imageData))
-
   return (
     <React.Fragment>
       <div>
@@ -49,8 +48,16 @@ function App() {
         {(JSON.stringify(data) === '[{}]') ? (
           <p>Loading...</p>
         ) : (
-          <p>{JSON.stringify(data)}</p>
+          <div>{makeTable(data)}</div>
+          //<p>{JSON.stringify(data)}</p>
         )}
+      </div>
+      
+      <div>
+        <table>
+          <tbody id="myTable">
+          </tbody>
+        </table>
       </div>
      
      <div>
