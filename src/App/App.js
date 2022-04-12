@@ -29,7 +29,7 @@ function App() {
     )
   }, [])
 
-  console.log(JSON.stringify(imageData))
+  console.log(JSON.parse(data))
 
   return (
     <React.Fragment>
@@ -37,7 +37,7 @@ function App() {
         <Header />
       </div>
     
-      <div>
+      <div className='chart'>
         {(imageData === '') ? (
           <p>Loading...</p>
         ) : (
@@ -45,7 +45,7 @@ function App() {
         )}
       </div>
 
-      <div>
+      <div className='jsonData'>
         {(JSON.stringify(data) === '[{}]') ? (
           <p>Loading...</p>
         ) : (
@@ -53,7 +53,7 @@ function App() {
         )}
       </div>
      
-     <div>
+      <div className='footer'>
         <Footer />
       </div>
     </React.Fragment>
