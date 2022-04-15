@@ -1,6 +1,7 @@
 dragonfly-analytics.2022-04-05.private-key.pem
 myprojectenv/
 __pycache__/
+.env
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
