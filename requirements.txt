@@ -12,3 +12,4 @@ zipp
 PyGithub
 matplotlib
 cryptography
+Flask-Dance
