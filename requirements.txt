@@ -13,3 +13,4 @@ PyGithub
 matplotlib
 cryptography
 Flask-Dance
+python-dotenv
