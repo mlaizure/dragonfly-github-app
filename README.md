@@ -32,6 +32,8 @@ The pie chart provides a nice visualization the data, showing which files contai
 
 The table gives a more straightforward display of the data, showing the full paths of the files as well as the number of commits associated with they keywords rather than a percentage.
 
+Lastly, on the right of the header is a button that takes you to dragonfly's local tool, which you can also visit [here](https://github.com/mlaizure/dragonfly).
+
 ## Contributions
 
 Pull requests and issues are welcome. Please leave detailed comments about any changes you make.
