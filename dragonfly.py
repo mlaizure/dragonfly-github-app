@@ -49,18 +49,16 @@ def index():
 
 @app.route("/dashboard")
 def dashboard():
-    user_connection = Github(github.token["access_token"])
     owner = request.args.get('owner')
     repo_name = request.args.get('repo_name')
-    return analysis(user_connection, owner, repo_name)
+    return analysis(github, owner, repo_name)
 
 
 @app.route("/chart")
 def chart():
-    user_connection = Github(github.token["access_token"])
     owner = request.args.get('owner')
     repo_name = request.args.get('repo_name')
-    fig = create_chart(user_connection, owner, repo_name)
+    fig = create_chart(github, owner, repo_name)
     buf = BytesIO()
     FigureCanvas(fig).print_png(buf)
     return Response(buf.getvalue(), mimetype="image/png")
@@ -68,8 +66,7 @@ def chart():
 
 @app.route("/repos")
 def repos():
-    user_connection = Github(github.token["access_token"])
-    return {"repos": get_repos(user_connection)}
+    return {"repos": get_repos(github)}
 
 
 if __name__ == "__main__":

@@ -104,13 +104,6 @@ function App() {
         )}
       </div>
 
-      <div>
-        <table>
-          <tbody id="myTable">
-          </tbody>
-        </table>
-      </div>
-
      <div>
         <Footer />
       </div>

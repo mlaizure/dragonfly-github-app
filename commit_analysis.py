@@ -27,14 +27,9 @@ git_integration = GithubIntegration(
 
 def get_repos(user_connection):
     inst_id = get_installation_id(user_connection)
-    token = git_integration.get_access_token(inst_id).token
-    headers = {
-        "Authorization": f"token {token}",
-        "Accept": "application/vnd.github.machine-man-preview+json",
-        "User-Agent": "PyGithub/Python",
-    }
-    repos_url = f"{git_integration.base_url}/installation/repositories"
-    repos_response = requests.get(repos_url, headers=headers)
+    repos_response = user_connection.get(
+        f"/user/installations/{inst_id}/repositories")
+    print(repos_response)
     repos_response_dict = repos_response.json()
     repos = repos_response_dict["repositories"]
     return repos
@@ -42,9 +37,18 @@ def get_repos(user_connection):
 
 def get_installation_id(user_connection):
 
-    installations = user_connection.get_user().get_installations()
-    inst = [inst for inst in installations if inst.app_id == app_id][0]
-    return inst.id
+    installations = user_connection.get(
+        "/user/installations"
+    ).json()["installations"]
+
+    user = user_connection.get("/user").json()
+
+    inst = [
+        inst for inst in installations if
+        inst["app_id"] == app_id
+        and inst["account"]["login"] == user["login"]
+    ][0]
+    return inst["id"]
 
 
 def analysis(user_connection, owner, repo_name):
