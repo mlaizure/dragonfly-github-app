@@ -25,47 +25,47 @@ git_integration = GithubIntegration(
 )
 
 
-def getInstallationById(git_integration, installationId):
-
-    token = git_integration.get_access_token(installationId).token
-
-    headers = {
-        "Authorization": f"token {token}",
-        "Accept": "application/vnd.github.machine-man-preview+json",
-        "User-Agent": "PyGithub/Python",
-    }
-    repos_url = f"{git_integration.base_url}/installation/repositories"
-    repos_response = requests.get(repos_url, headers=headers)
+def get_repos(user_connection):
+    inst_id = get_installation_id(user_connection)
+    repos_response = user_connection.get(
+        f"/user/installations/{inst_id}/repositories")
+    print(repos_response)
     repos_response_dict = repos_response.json()
-    first_repo = repos_response_dict["repositories"][0]
-    owner = first_repo["owner"]["login"]
-    repo_name = first_repo["name"]
-
-    return {
-        "installation": git_integration.get_installation(owner, repo_name),
-        "owner": owner,
-        "repo_name": repo_name,
-    }
+    repos = repos_response_dict["repositories"]
+    return repos
 
 
-def installation(user_connection):
+def get_installation_id(user_connection):
 
-    installations = user_connection.get_user().get_installations()
-    inst = [inst for inst in installations if inst.app_id == app_id][0]
+    installations = user_connection.get(
+        "/user/installations"
+    ).json()["installations"]
 
-    return getInstallationById(git_integration, inst.id)
+    user = user_connection.get("/user").json()
+
+    inst = [
+        inst for inst in installations if
+        inst["app_id"] == app_id
+        and inst["account"]["login"] == user["login"]
+    ][0]
+    return inst["id"]
 
 
-def analysis(inst):
-
+def analysis(user_connection, owner, repo_name):
+    inst_id = get_installation_id(user_connection)
     git_connection = Github(login_or_token=git_integration.get_access_token(
-        inst["installation"].id).token)
+        inst_id).token)
 
-    owner = inst["owner"]
-    repo_name = inst["repo_name"]
     repo = git_connection.get_repo(f"{owner}/{repo_name}")
 
-    gh_commits = repo.get_commits("master")
+    branches = repo.get_branches()
+    branch_names = [branch.name for branch in branches]
+    if "main" in branch_names:
+        main_branch = "main"
+    elif "master" in branch_names:
+        main_branch = "master"
+
+    gh_commits = repo.get_commits(main_branch)
 
     num_fixes_by_file = {}
     for gh_commit in gh_commits:
@@ -91,14 +91,15 @@ def is_ignored(path):
                   '.rss', '.xslt', '.xsd', '.wsdl', '.wsf', '.yaml', '.yml',
                   '~', '#', '.png', '.jpg', '.jpeg', '.gif']
     for ext in ignore_ext:
-        l = len(ext)
-        if path[-l:] == ext:
+        length = len(ext)
+        if path[-length:] == ext:
             return True
     return False
 
 
-def create_chart(inst):
-    data = analysis(inst)
+def create_chart(user_connection, owner, repo_name):
+
+    data = analysis(user_connection, owner, repo_name)
 
     files = []
     fixes = []

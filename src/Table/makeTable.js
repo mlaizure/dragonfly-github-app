@@ -1,18 +1,20 @@
-//function is set to noop then makes the table only allowing it to be called once
 export function makeTable(data) {
-  makeTable = nof;
-  var table = document.getElementById('myTable')
-  let i = 0
-
-  for (let item in data) {
-    var row = `<tr>
-                 <td>${item}: ${data[item]}</td>
-               </tr>`
-    table.innerHTML += row
-    console.log(i)
-    i++
-  }
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>File Name</th>
+          <th># of Commits</th>
+        </tr>
+      </thead>
+      <tbody>
+      {Object.keys(data).map(fileName =>
+	<tr key={fileName}>
+          <td>{fileName}</td>
+	  <td style={{textAlign: 'center'}}>{data[fileName]}</td>
+	</tr>
+      )}
+      </tbody>
+    </table>
+  )
 }
-
-//no operation function
-function nof() {};

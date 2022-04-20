@@ -1,11 +1,11 @@
 import json
 from flask import (
     Response, Flask, jsonify, send_from_directory,
-    render_template, redirect, url_for
+    render_template, redirect, url_for, request
 )
 from flask_dance.contrib.github import make_github_blueprint, github
 from commit_analysis import (
-    analysis, create_chart, git_integration, installation
+    analysis, create_chart, get_repos
 )
 from io import BytesIO
 import base64
@@ -32,6 +32,14 @@ github_bp = make_github_blueprint()
 app.register_blueprint(github_bp, url_prefix="/login")
 
 
+@app.route("/user-is-authenticated")
+def user_is_authenticated():
+    return {
+        "userIsAuthenticated": github.authorized,
+        "redirectUrl": url_for("github.login")
+    }
+
+
 @app.route("/")
 def index():
     if not github.authorized:
@@ -41,17 +49,24 @@ def index():
 
 @app.route("/dashboard")
 def dashboard():
-    user_connection = Github(github.token["access_token"])
-    return analysis(installation(user_connection))
+    owner = request.args.get('owner')
+    repo_name = request.args.get('repo_name')
+    return analysis(github, owner, repo_name)
 
 
 @app.route("/chart")
 def chart():
-    user_connection = Github(github.token["access_token"])
-    fig = create_chart(installation(user_connection))
+    owner = request.args.get('owner')
+    repo_name = request.args.get('repo_name')
+    fig = create_chart(github, owner, repo_name)
     buf = BytesIO()
     FigureCanvas(fig).print_png(buf)
     return Response(buf.getvalue(), mimetype="image/png")
+
+
+@app.route("/repos")
+def repos():
+    return {"repos": get_repos(github)}
 
 
 if __name__ == "__main__":
