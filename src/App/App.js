@@ -78,7 +78,7 @@ function App() {
   return (
     <React.Fragment>
       <div>
-        <Header />
+        <Header data={data}/>
       </div>
       <div>
       <select style={selectStyles} value={selectedRepo} onChange={(e) => {
