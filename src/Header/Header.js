@@ -1,8 +1,16 @@
 import './Header.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from '../assets/logo.png';
 
-function Header() {
+function Header({data}) {
+
+  useEffect(() => {
+    const jsonse = JSON.stringify(data);
+    const blob = new Blob([jsonse], {type: "application/json"});
+    const url  = URL.createObjectURL(blob);
+    document.getElementById('download_link').href = url;
+  }, [data])
+
   return (
     <React.Fragment>
       <div className="Header">
@@ -14,12 +22,6 @@ function Header() {
           <h1><a id="download_link" href="" download="dragonflyData">Download Analytics</a></h1>
         </div>
       </div>
-      <script>
-        var jsonse = JSON.stringify(data);
-        var blob = new Blob([jsonse], {type: "application/json"});
-        var url  = URL.createObjectURL(blob);
-        document.getElementById('download_link').href = url;
-      </script>
     </React.Fragment>
   )
 }
