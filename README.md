@@ -1,70 +1,53 @@
-# Getting Started with Create React App
+# dragonfly-github-app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![](assets/dragonfly.jpeg)
 
-## Available Scripts
+## What is dragonfly?
 
-In the project directory, you can run:
+* dragonfly is a downloadable github app that can be installed on any number of your repositories
 
-### `npm start`
+* When used, it will scan the chosen repository, returning both a pie chart and table displaying the commit data of certain files
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* These files will have a number, which is the total number of commits that had the words "fix", "bug", or "issue"
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* It is a code maturity tool that helps developers to familiarize themselves with a new codebase and pinpoints important or troublesome files
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This app can be installed [here](https://github.com/apps/dragonfly-analytics).
 
-### `npm run build`
+## Using dragonfly
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+When using the app, a new tab displaying the the dragonfly dashboard will be opened. Right below the header is the drop-down menu. Finn Aspenson's [AirBnB_clone](https://github.com/faspen/AirBnB_clone) project will be used as an example.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![](assets/dropdown.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This menu can cycle between all the repositories you have installed dragonfly on. For the chosen repository is a pie chart and table listed below.
 
-### `npm run eject`
+![](assets/drgn_pie.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The pie chart provides a nice visualization the data, showing which files contain the most amount of commits with the bug-related keywords. Below the pie chart is a table.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![](assets/table.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The table gives a more straightforward display of the data, showing the full paths of the files as well as the number of commits associated with they keywords rather than a percentage.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Lastly, on the right of the header is a button that takes you to dragonfly's local tool, which you can also visit [here](https://github.com/mlaizure/dragonfly).
 
-## Learn More
+## Contributions
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Pull requests and issues are welcome. Please leave detailed comments about any changes you make.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Related Projects
 
-### Code Splitting
+* [erikbern/git-of-theseus](https://github.com/erikbern/git-of-theseus)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+* [ejwa/gitinspector](https://github.com/ejwa/gitinspector)
 
-### Analyzing the Bundle Size
+## Authors
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+* Maddi Laizure - [Github](https://github.com/mlaizure) & [LinkedIn](https://www.linkedin.com/in/maddi-laizure/)
 
-### Making a Progressive Web App
+* Corbin Vandeventer - [Github](https://github.com/forstupidityonly) & [LinkedIn](https://www.linkedin.com/in/corbin-vandeventer-6551b71a9/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* Finn Aspenson - [Github](https://github.com/faspen) & [LinkedIn](https://www.linkedin.com/in/finn-aspenson-0a23841b6/)
