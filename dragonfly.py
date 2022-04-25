@@ -1,7 +1,7 @@
 import json
 from flask import (
     Response, Flask, jsonify, send_from_directory,
-    render_template, redirect, url_for, request
+    render_template, redirect, url_for, request, session
 )
 from flask_dance.contrib.github import make_github_blueprint, github
 from commit_analysis import (
@@ -14,6 +14,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from dotenv import load_dotenv
 import os
 from github import Github
+from datetime import timedelta
 
 load_dotenv()
 
@@ -30,6 +31,12 @@ app.config["GITHUB_OAUTH_CLIENT_SECRET"] = os.environ.get(
     "GITHUB_OAUTH_CLIENT_SECRET")
 github_bp = make_github_blueprint()
 app.register_blueprint(github_bp, url_prefix="/login")
+
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=5)
 
 
 @app.route("/user-is-authenticated")
