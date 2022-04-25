@@ -5,7 +5,7 @@ from flask import (
 )
 from flask_dance.contrib.github import make_github_blueprint, github
 from commit_analysis import (
-    analysis, create_chart, get_repos
+    analysis, create_chart, get_repos, get_installation_id
 )
 from io import BytesIO
 import base64
@@ -36,7 +36,7 @@ app.register_blueprint(github_bp, url_prefix="/login")
 @app.before_request
 def make_session_permanent():
     session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes=5)
+    app.permanent_session_lifetime = timedelta(minutes=15)
 
 
 @app.route("/user-is-authenticated")
@@ -58,22 +58,34 @@ def index():
 def dashboard():
     owner = request.args.get('owner')
     repo_name = request.args.get('repo_name')
-    return analysis(github, owner, repo_name)
+    inst_id = get_installation_id(github)
+    if not inst_id:
+        return { "userHasNoInstallation": True }
+    else:
+        return analysis(inst_id, github, owner, repo_name)
 
 
 @app.route("/chart")
 def chart():
     owner = request.args.get('owner')
     repo_name = request.args.get('repo_name')
-    fig = create_chart(github, owner, repo_name)
-    buf = BytesIO()
-    FigureCanvas(fig).print_png(buf)
-    return Response(buf.getvalue(), mimetype="image/png")
+    inst_id = get_installation_id(github)
+    if not inst_id:
+        return { "userHasNoInstallation": true }
+    else:
+        fig = create_chart(inst_id, github, owner, repo_name)
+        buf = BytesIO()
+        FigureCanvas(fig).print_png(buf)
+        return Response(buf.getvalue(), mimetype="image/png")
 
 
 @app.route("/repos")
 def repos():
-    return {"repos": get_repos(github)}
+    inst_id = get_installation_id(github)
+    if not inst_id:
+        return { "userHasNoInstallation": True }
+    else:
+        return {"repos": get_repos(inst_id, github)}
 
 
 if __name__ == "__main__":

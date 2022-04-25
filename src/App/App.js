@@ -4,10 +4,11 @@ import './App.css';
 import Header from '../Header/Header.js';
 import Footer from '../Footer/Footer.js';
 import { makeTable } from '../Table/makeTable.js';
-
+import logo from '../assets/logo.png';
 
 function App() {
 
+  const [userHasInstallation, setUserHasInstallation] = useState(true)
   const [imgIsLoading, setImgIsLoading] = useState(true)
   const [selectedRepo, setSelectedRepo] = useState('')
   const [repos, setRepos] = useState([])
@@ -25,9 +26,13 @@ function App() {
 
   useEffect(() => {
     fetch("/repos").then( res => res.json())
-      .then(({ repos }) => {
-	setRepos(repos)
-	setSelectedRepo(repos[0].full_name)
+      .then((res) => {
+        if (res.userHasNoInstallation)
+          setUserHasInstallation(false)
+        else {
+          setRepos(res.repos)
+          setSelectedRepo(res.repos[0].full_name)
+        }
       })
   }, [])
 
@@ -55,7 +60,12 @@ function App() {
     let tableSrc = `/dashboard?owner=${encodeURIComponent(repoData.owner.login)}&repo_name=${encodeURIComponent(repoData.name)}`
     fetch(tableSrc)
       .then(res => res.json())
-      .then(data => { setData(data) })
+      .then(res => {
+	if (res.userHasNoInstallation)
+	  setUserHasInstallation(false)
+	else
+          setData(res)
+      })
   }, [selectedRepo])
 
   const maybeRenderImgIsLoading = () => {
@@ -76,7 +86,17 @@ function App() {
   const selectStyles = {fontSize: '20px', fontWeight: 'bold',
 			padding: '2px', margin: '20px'}
   return (
-    <React.Fragment>
+    !userHasInstallation
+    ?
+      <div style={ { display: "flex", justifyContent: "center",
+		     alignItems: "center", flexDirection: "column",
+		     margin: "0 auto", width: "800px", textAlign: "center",
+		     height: "100vh" } }>
+        <img src={logo} alt="Dragonfly Logo" width="60px" height="60px"/>
+        <p>Dragonfly is a GitHub app that provides automated bug analysis and metrics to improve code stability</p>
+        <a href="https://github.com/apps/dragonfly-analytics">Install dragonfly</a>
+      </div>
+    : <React.Fragment>
       <div>
         <Header data={data}/>
       </div>

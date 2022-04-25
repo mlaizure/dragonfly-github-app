@@ -25,8 +25,7 @@ git_integration = GithubIntegration(
 )
 
 
-def get_repos(user_connection):
-    inst_id = get_installation_id(user_connection)
+def get_repos(inst_id, user_connection):
     repos_response = user_connection.get(
         f"/user/installations/{inst_id}/repositories")
     print(repos_response)
@@ -43,16 +42,18 @@ def get_installation_id(user_connection):
 
     user = user_connection.get("/user").json()
 
-    inst = [
+    installations = [
         inst for inst in installations if
         inst["app_id"] == app_id
         and inst["account"]["login"] == user["login"]
-    ][0]
-    return inst["id"]
+    ]
+    if len(installations) > 0:
+        return installations[0]["id"]
+    else:
+        return None
 
 
-def analysis(user_connection, owner, repo_name):
-    inst_id = get_installation_id(user_connection)
+def analysis(inst_id, user_connection, owner, repo_name):
     git_connection = Github(login_or_token=git_integration.get_access_token(
         inst_id).token)
 
@@ -97,9 +98,9 @@ def is_ignored(path):
     return False
 
 
-def create_chart(user_connection, owner, repo_name):
+def create_chart(inst_id, user_connection, owner, repo_name):
 
-    data = analysis(user_connection, owner, repo_name)
+    data = analysis(inst_id, user_connection, owner, repo_name)
 
     files = []
     fixes = []
