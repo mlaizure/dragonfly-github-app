@@ -62,7 +62,11 @@ def dashboard():
     if not inst_id:
         return { "userHasNoInstallation": True }
     else:
-        return analysis(inst_id, github, owner, repo_name)
+        r = analysis(inst_id, github, owner, repo_name)
+        if len(r) == 0:
+            return { "repositoryHasNoCommits": True}
+        else:
+            return r
 
 
 @app.route("/chart")
