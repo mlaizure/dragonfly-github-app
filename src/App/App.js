@@ -122,7 +122,7 @@ function App() {
         <img src={logo} alt="Dragonfly Logo" width="60px" height="60px"/>
         <a href="https://github.com/apps/dragonfly-analytics">Install Dragonfly</a>
         <p>Dragonfly is a GitHub app that provides automated bug analysis and metrics to improve code stability</p>
-      <img src="https://raw.githubusercontent.com/mlaizure/dragonfly-github-app/main/src/assets/dashboard_preview.png" width="800px"/>
+      <img src="https://github.com/mlaizure/dragonfly-github-app/blob/main/assets/dashboard_preview.png?raw=true" width="800px"/>
       </div>
     : <React.Fragment>
       { maybeRenderData(data,
