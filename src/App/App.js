@@ -94,7 +94,7 @@ function App() {
       return null
   }
 
-  const maybeRenderImg = (imgIsLoading) => {
+  const maybeRenderImg = (imgIsLoading, repositoryHasNoCommits) => {
     let repoData = selectedRepoData()
     if (!repoData)
       return null
@@ -102,7 +102,7 @@ function App() {
     return (
         <div style={ { display: "flex", flexDirection: "column", alignItems: "center", width: "960px" } }>
 	<img id='chart' src={imgSrc} style={ { display: imgIsLoading ? "none" : "inline" } }/>
-	{imgIsLoading
+	{imgIsLoading || repositoryHasNoCommits === null
 	? null
          : <p style={ {width: "600px", fontSize: "16px", position: "relative", top: "-45px" } }><b>Each slice of the figure represents</b> <br/>&nbsp;<code style={ { margin: "5px 0", fontSize: "15px"} }>number of fixes per file / total number of fixes in repository </code><br/> where <i>fixes</i> are commit messages containing keywords such as 'bug', 'fix', or 'issue'.</p>
 	}
@@ -135,7 +135,7 @@ function App() {
             setSelectedRepo(e.target.value)
             setData([{}])
             setImgIsLoading(true)
-            setRepositoryHasNoCommits(false)
+            setRepositoryHasNoCommits(null)
           }}>
               {repos.map(repo => <option key={repo.full_name}>{repo.full_name}</option>)}
             </select>
@@ -145,7 +145,7 @@ function App() {
             <>
               <div>
                 {maybeRenderImgIsLoading()}
-		{maybeRenderImg(imgIsLoading)}
+		{maybeRenderImg(imgIsLoading, repositoryHasNoCommits)}
               </div>
 
               <div>
