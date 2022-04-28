@@ -7,6 +7,7 @@ import { makeTable } from '../Table/makeTable.js';
 import logo from '../assets/logo.png';
 
 function maybeRenderData (data, jsx) {
+  // checking to see if user has any repos
   if (data.length === 0)
       return (<h2>No repositories found.</h2>)
   else
@@ -14,6 +15,7 @@ function maybeRenderData (data, jsx) {
 }
 
 function maybeRenderCommits (repositoryHasNoCommits, jsx) {
+  // checking to see if repo has any commits with keywords
   if (repositoryHasNoCommits)
     return (<h2 style={ { marginLeft: "20px" } }>No bug fix related commits found in the selected repository.</h2>)
   else
@@ -32,6 +34,7 @@ function App() {
   }, [ ])
 
   useEffect(() => {
+    // monitoring loading status of image
     const img = document.getElementById('chart')
     if (!img) return
 
@@ -40,6 +43,7 @@ function App() {
   }, [selectedRepo])
 
   useEffect(() => {
+    // fetching repo data for populating dropdown and selecting first one
     fetch("/repos").then( res => res.json())
       .then((res) => {
         if (res.userHasNoInstallation)
@@ -52,23 +56,17 @@ function App() {
   }, [])
 
   const selectedRepoData = () => {
+    // getting data from selected repo
     if (!selectedRepo)
       return null
     let repo = repos.find((repo) => repo.full_name === selectedRepo)
     return repo
   }
 
-  useEffect(() => {
-      fetch("/user-is-authenticated")
-      .then(res => res.json())
-      .then( ({ userIsAuthenticated, redirectUrl }) => {
-        if (!userIsAuthenticated)
-          window.location.replace(redirectUrl)
-      })
-  }, [])
-
   const [data, setData] = useState([{}])
+
   useEffect(() => {
+    // getting data for table from a specific repo
     let repoData = selectedRepoData()
     if (!repoData)
       return
@@ -95,6 +93,7 @@ function App() {
   }
 
   const maybeRenderImg = (imgIsLoading, repositoryHasNoCommits) => {
+    // fetch rendered Matplotlib image and display caption if image has finished loading
     let repoData = selectedRepoData()
     if (!repoData)
       return null

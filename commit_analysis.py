@@ -26,16 +26,16 @@ git_integration = GithubIntegration(
 
 
 def get_repos(inst_id, user_connection):
+    """getting list of repos from user's installation"""
     repos_response = user_connection.get(
         f"/user/installations/{inst_id}/repositories")
-    print(repos_response)
     repos_response_dict = repos_response.json()
     repos = repos_response_dict["repositories"]
     return repos
 
 
 def get_installation_id(user_connection):
-
+    """finding user's installation id via flask_dance connection"""
     installations = user_connection.get(
         "/user/installations"
     ).json()["installations"]
@@ -54,6 +54,7 @@ def get_installation_id(user_connection):
 
 
 def analysis(inst_id, user_connection, owner, repo_name):
+    """uses PyGithub connection to compile relevant commit info"""
     git_connection = Github(login_or_token=git_integration.get_access_token(
         inst_id).token)
 
@@ -81,6 +82,7 @@ def analysis(inst_id, user_connection, owner, repo_name):
 
 
 def is_keyword(msg):
+    """checking if keyword in commit message"""
     keywords = ['fix', 'bug', 'issue']
     if any(keyword in msg.lower() for keyword in keywords):
         return True
@@ -88,6 +90,7 @@ def is_keyword(msg):
 
 
 def is_ignored(path):
+    """filtering some non-code file extensions"""
     ignore_ext = ['.json', '.md', '.ps', '.eps', '.txt', '.xml', '.xsl',
                   '.rss', '.xslt', '.xsd', '.wsdl', '.wsf', '.yaml', '.yml',
                   '~', '#', '.png', '.jpg', '.jpeg', '.gif']
@@ -99,7 +102,7 @@ def is_ignored(path):
 
 
 def create_chart(inst_id, user_connection, owner, repo_name):
-
+    """creating pie chart with Matplotlib"""
     data = analysis(inst_id, user_connection, owner, repo_name)
 
     files = []
